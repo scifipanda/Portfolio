@@ -1,4 +1,9 @@
-let mouse = { x: 0, y: 0 },
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+if (!isMobile()) {
+    let mouse = { x: 0, y: 0 },
     textLetters,
     letterArray = [],
     spread = 0.01,
@@ -6,8 +11,7 @@ let mouse = { x: 0, y: 0 },
     textSize,
     centerPosX,
     centerPosY,
-    textPos,
-    scrollDist;
+    textPos;
 
 
 // Function to find position of text element with id of #test
@@ -28,57 +32,60 @@ function calcTextPos() {
         letterArray.push(textPos)
     }
 }
-// Calls text position function on load and on page resize and scroll
-calcTextPos()
+    // Calls text position function on load and on page resize and scroll
+    calcTextPos()
 
-$(window).resize(function () { letterArray = []; calcTextPos() })
+    $(window).resize(function () { letterArray = []; calcTextPos() })
 
-// function to find position of mouse and calculate the shadow distance
-$(window).mousemove(function (event) {
-    mouse.x = event.clientX;
-    mouse.y = event.clientY;
+    // function to find position of mouse and calculate the shadow distance
+    $(window).mousemove(function (event) {
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
 
-    for (let i = 0; i < letterArray.length; i++) {
-        let temp = '#letter' + i;
-        let letter = $(temp);
+        for (let i = 0; i < letterArray.length; i++) {
+            let temp = '#letter' + i;
+            let letter = $(temp);
 
-        let distanceFrom = distance(letterArray[i].x, letterArray[i].y, mouse.x, mouse.y);
+            let distanceFrom = distance(letterArray[i].x, letterArray[i].y, mouse.x, mouse.y);
 
-        let shadow = {
-            x: -distanceFrom.x * spread + "px ",
-            y: -distanceFrom.y * spread + "px ",
-            df: distanceFrom.df * (spread / 1.75) + "px "
+            let shadow = {
+                x: -distanceFrom.x * spread + "px ",
+                y: -distanceFrom.y * spread + "px ",
+                df: distanceFrom.df * (spread / 1.75) + "px "
+            };
+
+            let textShadow = shadow.x + shadow.y + shadow.df + " #032535";
+            let z = Math.floor(distanceFrom.df);
+            letter.css({ "text-shadow": textShadow, "z-index": z });
+
+        }
+    })
+
+    // function to find distance between mouse and text
+    function distance(x1, y1, x2, y2) {
+        var xDist = x2 - x1;
+        var yDist = y2 - y1;
+
+        return {
+            x: xDist,
+            y: yDist,
+            df: Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
         };
-
-        let textShadow = shadow.x + shadow.y + shadow.df + " #032535";
-        let z = Math.floor(distanceFrom.df);
-        letter.css({ "text-shadow": textShadow, "z-index": z });
-
     }
-})
 
-// function to find distance between mouse and text
-function distance(x1, y1, x2, y2) {
-    var xDist = x2 - x1;
-    var yDist = y2 - y1;
+    // Just some more text interaction stuff. Might remove idk
+    $(document).on("mouseenter", "span", function (event) {
+        let $this = $(this)
+        $this.css('color', '#ff0000')
+    })
 
-    return {
-        x: xDist,
-        y: yDist,
-        df: Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
-    };
+    $(document).on("mouseout", "span", function (event) {
+        let $this = $(this)
+        setTimeout(function () {
+            $this.css('color', '#ff5858')
+        }, 250);
+    })
+
+
 }
-
-// Just some more text interaction stuff. Might remove idk
-$(document).on("mouseenter", "span", function (event) {
-    let $this = $(this)
-    $this.css('color', '#ff0000')
-})
-
-$(document).on("mouseout", "span", function (event) {
-    let $this = $(this)
-    setTimeout(function () {
-        $this.css('color', '#ff5858')
-    }, 250);
-})
 
