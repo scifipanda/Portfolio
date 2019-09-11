@@ -1,3 +1,6 @@
+document.body.height = window.innerHeight;
+$(".fullscreen").css('height', window.innerHeight);
+
 // Text effects that I want to work on mobile
 let currentlyShowing = false,
     text = $("#title-text"),
