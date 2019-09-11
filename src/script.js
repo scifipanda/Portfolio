@@ -1,15 +1,3 @@
-// if (window.innerWidth > 450) {
-//     
-// }
-
-function isMobile() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-if (!isMobile()) {
-    $.getScript("../src/textShadow.js");
-}
-
 // Text effects that I want to work on mobile
 let currentlyShowing = false,
     text = $("#title-text"),
