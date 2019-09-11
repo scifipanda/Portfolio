@@ -197,7 +197,6 @@ hr {
 /* Skills section */
 
 #skills-section {
-    height: 100vh;
     width: 25%;
     display: grid;
 }
