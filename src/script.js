@@ -13,6 +13,11 @@ for (i = 0; i < textArray.length; i++) {
     $(('<span id="letter' + i + '" class="text-shadow">' + textArray[i] + '</span>')).hide().appendTo('#text-container').fadeIn(150 * i)
 
 }
+
+windows.addEventListener('scroll', () => {
+    document.body.height = window.innerHeight;
+    $(".fullscreen").css('height', window.innerHeight);
+})
 // Functions to show/hide sections
 
 function hide(fullHide) {
