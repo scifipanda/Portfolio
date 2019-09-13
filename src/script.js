@@ -14,7 +14,7 @@ for (i = 0; i < textArray.length; i++) {
 
 }
 
-windows.addEventListener('scroll', () => {
+document.addEventListener('scroll', () => {
     document.body.height = window.innerHeight;
     $(".fullscreen").css('height', window.innerHeight);
 })
